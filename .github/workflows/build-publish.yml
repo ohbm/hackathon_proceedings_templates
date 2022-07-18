@@ -2,7 +2,7 @@ name: Build
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   build_and_publish:
     runs-on: ubuntu-latest
@@ -10,7 +10,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@master
         with:
-          ref: master
+          ref: main
       - name: Prepare environment
         run: |
           mkdir -p ./out
