@@ -1,8 +1,7 @@
-name: Build
+name: Create artefact for PR
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, edited, reopened, synchronize, ready_for_review]
 jobs:
   build_and_publish:
     runs-on: ubuntu-latest
@@ -10,7 +9,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@master
         with:
-          ref: main
+          ref: ''
       - name: Prepare environment
         run: |
           mkdir -p ./out
@@ -38,17 +37,3 @@ jobs:
         with:
           name: Final_built
           path: out
-      - name: Copy built pdf
-        run: |
-          mkdir -p ./compiled
-          cp ./out/main.pdf ./compiled/main.pdf
-      - name: Push on master branch
-        uses: github-actions-x/commit@v2.9
-        with:
-          github-token: ${{ secrets.GH_TOKEN }}
-          push-branch: 'main'
-          commit-message: 'publish built pdf to master [skip ci]'
-          force-add: 'true'
-          files: compiled/main.pdf
-          name: Stefano Moia
-          email: s.moia.research@gmail.com
